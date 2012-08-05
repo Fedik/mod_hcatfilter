@@ -47,18 +47,31 @@ if (JRequest::getCmd('option') == 'com_content' && JRequest::getCmd('view') == '
 }
 
 //load children of root category
-$categories = JCategories::getInstance('Content');
+$cat_options = array(
+		'ordering' => 'title',//lft, title
+		'table' => '#__content',
+		'extension' => 'com_content'
+	);
+//$categories = JCategories::getInstance('hcatfilter', $cat_options);
+$categories = modHcatFilterHelper::getCategories();
+if (empty($categories) || empty($categories[$root_catid])) {
+	echo JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');
+	return;
+}
+//var_dump($categories);
+//$categories = JCategories::getInstance('content');
 
-$category = $categories->get($root_catid);
+//$category = $categories->get($root_catid);
 //var_dump($category);
-$items_first = $category->getChildren();
-$items_full = $category->getChildren(true);
-$curent_cat = $categories->get($active_catid);
+//$items_first = $category->getChildren();
+//var_dump($items_first);
+//$items_full = $category->getChildren(true);
+//$curent_cat = $categories->get($active_catid);
 
 //get categories as js object
-$cat_first_lvl_js = modHcatFilterHelper::getJSONLevel($items_first);
-$cat_tree_js = modHcatFilterHelper::getJSONTree($items_full);
-$active_categories = ($active_catid) ? modHcatFilterHelper::getStringPathActive($curent_cat) : '';
+$cat_first_lvl_js = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, true, true);
+$cat_tree_js = modHcatFilterHelper::getCatsFullTree($categories, true, true);
+$active_categories = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid) : '[]';
 
 $block_id = 'mod-hcatfilter-' . $module->id;
 $select_text = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
@@ -69,7 +82,7 @@ try{
   treeRoot: {$cat_first_lvl_js},
   tree: {$cat_tree_js},
   element: '{$block_id}',
-  options: {choose: '{$select_text}',labels:[{$labels}], preselect: [{$active_categories}]}
+  options: {choose: '{$select_text}',labels:[{$labels}], preselect: {$active_categories}}
  });
 }catch(e){console.error(e)};
 JS;

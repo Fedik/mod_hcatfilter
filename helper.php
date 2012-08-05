@@ -19,53 +19,102 @@ jimport('joomla.application.categories');
 // module class helper
 abstract class modHcatFilterHelper
 {
+	public static function getCategories(){
+
+		$user = JFactory::getUser();
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+
+		$query->from('#__categories as c');
+
+		$query->select('c.id, c.parent_id, c.lft, c.level, c.title, c.alias');
+
+		$query->where('c.published = 1');
+
+		$query->where('(c.extension=' . $db->Quote('com_content') . ' OR c.extension=' . $db->Quote('system') . ')');
+		$query->where('c.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+		$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+
+		$query->order('c.lft ASC');//lft, title, created_time, modified_time
+
+		//echo $query->dump();
+		$db->setQuery($query);
+
+		$categories = $db->loadObjectList('id');
+		$i = 1;
+		foreach ($categories as $cat) {
+			//keep ordering
+			$categories[$cat->id]->ordering = $i;
+
+			if (empty($categories[$cat->id]->children)) {
+				$categories[$cat->id]->children = array();
+			}
+
+			//keep children
+			if (isset($categories[$cat->parent_id])) {
+				if (empty($categories[$cat->parent_id]->children)) {
+					$categories[$cat->parent_id]->children = array();
+				}
+				$categories[$cat->parent_id]->children[] = $cat;
+			}
+			$i++;
+		}
+		//unset($cat);
+
+		return $categories;
+	}
 
 	/**
 	* return full tree list
 	* { 1: { 3: "Option 3",  4: "Option 4" }, 3: {5: "Some 5", 6: "Some 6"} }
 	*/
-	public static function getJSONTree($items){
+	public static function getCatsFullTree($items, $json = true, $order_pref = false){
 
 		$js_arr = array();
+
 		foreach ($items as $cat){
-			if($cat->hasChildren()){
-				$children = $cat->getChildren();
-				$js_arr[] = $cat->id . ':' . self::getJSONLevel($children);
+			if(!empty($cat->children)){
+				// trick for keep right ordering in JavaScript
+				//http://stackoverflow.com/questions/280713/elements-order-in-a-for-in-loop
+				$k = $order_pref && $cat->ordering ? $cat->ordering . '_' . $cat->id : $cat->id;
+
+				$js_arr[$k] =  self::getCatsForOneLevel($cat->children, false, true);
 			}
 		}
-		return '{' . implode(',', $js_arr) . '}';
+		return $json ? json_encode($js_arr) : $js_arr;
 	}
 
 	/**
 	* return categories for one level
 	* { 1: "Option 1",  2: "Option 2" }
 	*/
-	public static function getJSONLevel($items){
+	public static function getCatsForOneLevel($items, $json = true, $order_pref = false){
 
 		$js_arr = array();
-		foreach ($items as $cat){
-			$js_arr[] = $cat->id. ':"' . htmlspecialchars($cat->title, ENT_QUOTES) . '"';
-		}
-		return '{' . implode(',', $js_arr) . '}';
 
+		foreach ($items as $cat){
+			// trick for keep right ordering in JavaScript
+			$k = $order_pref && $cat->ordering ? $cat->ordering . '_' . $cat->id : $cat->id;
+			$js_arr[$k] = htmlspecialchars($cat->title, ENT_QUOTES);
+
+		}
+		return $json ? json_encode($js_arr) : $js_arr;
 	}
 
 	/**
 	* return js array with active categories
 	*/
-	public static function getStringPathActive($item) {
+	public static function getActivePath($items , $active_id) {
 
-		$par_ids = array();
+		$par_ids = array($active_id);
 		//add also curent item
-		$par_ids[] = ($item->id != 'root') ? '\'' . $item->id . '\'' : '\'0\'';
+		//$par_ids[] = ($item->id != 'root') ?  $item->id  : "0";
 
-		while ($item->hasParent()) {
-			$item = $item->getParent();
-			$par_ids[] = ($item->id != 'root') ? '\'' . $item->id . '\'' : '\'0\'';
-		}
-
-		return implode(',', $par_ids);
-
+// 		while ($item->hasParent()) {
+// 			$item = $item->getParent();
+// 			$par_ids[] = ($item->id != 'root') ?  $item->id  :  "0";
+// 		}
+		return json_encode($par_ids);
 	}
 
 }

@@ -40,6 +40,6 @@ hCatFilterInit = function () {
 };
 
 //init
-window.addEvent('load',function(){
+window.addEvent('domready',function(){
 	hCatFilterInit();
 });
