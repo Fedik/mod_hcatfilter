@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension	type="module"	version="2.5"	client="site"	method="upgrade">
+	<name>MOD_HCATFILTER</name>
+	<author>Fedik</author>
+	<creationDate>April 2012</creationDate>
+	<license>GNU/GPLv3</license>
+	<authorEmail>getthesite@gmail.com</authorEmail>
+	<authorUrl>www.getsite.org.ua</authorUrl>
+	<version>2012.04.11</version>
+	<description>MOD_HCATFILTER_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_hcatfilter">mod_hcatfilter.php</filename>
+		<folder>tmpl</folder>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>language</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+
+			<fieldset name="basic">
+				<field name="root_catid" type="category" extension="com_content" show_root="1" default=""
+					label="MOD_HCATFILTER_ROOT_CAT_LABEL" description="MOD_HCATFILTER_ROOT_CAT_DESC" />
+
+				<field name="assign_menu" type="radio" default="0"
+					label="MOD_HCATFILTER_ASSIGN_MENU_LABEL" description="MOD_HCATFILTER_ASSIGN_MENU_DESC">
+				  <option value="1">JYes</option>
+				  <option value="0">JNo</option>
+				</field>
+				<field name="menu_item" type="menuitem"
+					label="MOD_HCATFILTER_MENU_ITEM_LABEL" description="MOD_HCATFILTER_MENU_ITEM_DESC" />
+
+				<field name="labels" type="text" default="" size="40"
+					label="MOD_HCATFILTER_LABELS_LABEL" description="MOD_HCATFILTER_LABELS_DESC"/>
+
+				<field name="before-editor-one" type="spacer"  hr="true" class="clr"/>
+
+				<field name="text_before"  type="editor" width="300" filter="safehtml"
+					label ="MOD_HCATFILTER_TEXT_BEFORE_LABEL"/>
+
+				<field name="before-editor-two" type="spacer"  hr="true" class="clr"/>
+
+				<field name="text_after" type="editor" width="300" filter="safehtml"
+					label ="MOD_HCATFILTER_TEXT_AFTER_LABEL"/>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field name="use_def_css" type="radio" default="1"
+					label="MOD_HCATFILTER_USE_CSS_LABEL" description="MOD_HCATFILTER_USE_CSS_DESC">
+				  <option value="1">JYes</option>
+				  <option value="0">JNo</option>
+				</field>
+
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid">
+					<option
+						value="itemid"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
