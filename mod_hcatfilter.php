@@ -33,7 +33,7 @@ $root_catid = $params->get('root_catid', 0);
 $labels = trim(htmlspecialchars($params->get('labels'), ENT_QUOTES));
 if($labels){
 	$labels = explode(',', $labels);
-	$labels = '\'' . implode('\',\'', $labels) . '\'';
+	$labels = json_encode($labels);// '\'' . implode('\',\'', $labels) . '\'';
 }
 //for assign result for menu item
 $Itemid = $params->get('assign_menu') ? $params->get('menu_item') : JRequest::getInt('Itemid');
@@ -42,50 +42,36 @@ $Itemid = $params->get('assign_menu') ? $params->get('menu_item') : JRequest::ge
 $active_catid = 0;
 if (JRequest::getCmd('option') == 'com_content' && JRequest::getCmd('view') == 'category') {
 //if ($menu_active->query['option'] == 'com_content' && $menu_active->query['view'] == 'category') {
-	$active_catid = JRequest::getInt('id');
+	$active_catid = $app->input->get('id', null, 'string'); //JRequest::getInt('id');
 	//$active_catid = $menu_active->query['id'];
 }
 
-//load children of root category
-$cat_options = array(
-		'ordering' => 'title',//lft, title
-		'table' => '#__content',
-		'extension' => 'com_content'
-	);
-//$categories = JCategories::getInstance('hcatfilter', $cat_options);
+//load categories
 $categories = modHcatFilterHelper::getCategories();
+
 if (empty($categories) || empty($categories[$root_catid])) {
 	echo JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');
 	return;
 }
-//var_dump($categories);
-//$categories = JCategories::getInstance('content');
-
-//$category = $categories->get($root_catid);
-//var_dump($category);
-//$items_first = $category->getChildren();
-//var_dump($items_first);
-//$items_full = $category->getChildren(true);
-//$curent_cat = $categories->get($active_catid);
 
 //get categories as js object
 $cat_first_lvl_js = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, true, true);
 $cat_tree_js = modHcatFilterHelper::getCatsFullTree($categories, true, true);
-$active_categories = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid) : '[]';
+$active_categories = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid, true) : '[]';
 
 $block_id = 'mod-hcatfilter-' . $module->id;
 $select_text = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
 
-$js_config = <<<JS
+$js_config = "
 try{
  hCatFilterItems.push({
   treeRoot: {$cat_first_lvl_js},
   tree: {$cat_tree_js},
   element: '{$block_id}',
-  options: {choose: '{$select_text}',labels:[{$labels}], preselect: {$active_categories}}
+  options: {choose:'{$select_text}',". (($labels) ? 'labels:'. $labels . ',' : '' ) ." preselect:{$active_categories}}
  });
 }catch(e){console.error(e)};
-JS;
+";
 
 //load js and css
 if ($params->get('use_def_css', 1)){

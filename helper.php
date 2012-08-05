@@ -19,6 +19,9 @@ jimport('joomla.application.categories');
 // module class helper
 abstract class modHcatFilterHelper
 {
+	/**
+	 * load the full categories list
+	 */
 	public static function getCategories(){
 
 		$user = JFactory::getUser();
@@ -59,7 +62,6 @@ abstract class modHcatFilterHelper
 			}
 			$i++;
 		}
-		//unset($cat);
 
 		return $categories;
 	}
@@ -104,17 +106,23 @@ abstract class modHcatFilterHelper
 	/**
 	* return js array with active categories
 	*/
-	public static function getActivePath($items , $active_id) {
+	public static function getActivePath($items , $active_id, $order_pref = false) {
+		$parent_ids = array();
 
-		$par_ids = array($active_id);
-		//add also curent item
-		//$par_ids[] = ($item->id != 'root') ?  $item->id  : "0";
+		if (empty($items[$active_id])) {
+			return json_encode($parent_ids);
+		}
 
-// 		while ($item->hasParent()) {
-// 			$item = $item->getParent();
-// 			$par_ids[] = ($item->id != 'root') ?  $item->id  :  "0";
-// 		}
-		return json_encode($par_ids);
+		$curent = $items[$active_id];
+
+		$parent_ids[] = $order_pref ? $curent->ordering .'_'. $curent->id : $curent->id;
+
+		while (isset($items[$curent->parent_id])) {
+			$curent = $items[$curent->parent_id];
+			$parent_ids[] = $order_pref ? $curent->ordering .'_'. $curent->id : $curent->id;
+		}
+
+		return json_encode($parent_ids);
 	}
 
 }
