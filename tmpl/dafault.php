@@ -18,7 +18,7 @@ defined('_JEXEC') or die('Get lost?');
 	<form action="<?php  echo JRoute::_('index.php');?>" method="get" id="<?php echo $block_id; ?>-form" class="hcatfilter-form">
 		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="view" value="category" />
-		<input type="hidden" name="id" value="0" />
+		<input type="hidden" name="id" value="<?php echo $root_catid; ?>" />
 		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>" />
 		<div class="hcatfilter-select">
 			<div id="<?php echo $block_id; ?>"></div>

@@ -26,6 +26,21 @@
 				<field name="root_catid" type="category" extension="com_content" show_root="1" default=""
 					label="MOD_HCATFILTER_ROOT_CAT_LABEL" description="MOD_HCATFILTER_ROOT_CAT_DESC" />
 
+				<field name="ordering" type="list" default="lft"
+					label="MOD_HCATFILTER_ORDERING_LABEL" description="MOD_HCATFILTER_ORDERING_DESC">
+				  <option value="lft">JFIELD_ORDERING_LABEL</option>
+				  <option value="title">JGLOBAL_TITLE</option>
+				  <option value="created_time">MOD_HCATFILTER_ORDERING_CREATED_TIME</option>
+				  <option value="modified_time">MOD_HCATFILTER_ORDERING_MODIFIED_TIME</option>
+				  <option value="hits">JGLOBAL_HITS</option>
+				</field>
+
+				<field name="ordering_dir" type="list" default="ASC"
+					label="MOD_HCATFILTER_ORDERING_DIRECTION_LABEL" description="MOD_HCATFILTER_ORDERING_DIRECTION_DESC">
+				  <option value="ASC">MOD_HCATFILTER_ORDERING_DIRECTION_ASCENDING</option>
+				  <option value="DESC">MOD_HCATFILTER_ORDERING_DIRECTION_DESCENDING</option>
+				</field>
+
 				<field name="assign_menu" type="radio" default="0"
 					label="MOD_HCATFILTER_ASSIGN_MENU_LABEL" description="MOD_HCATFILTER_ASSIGN_MENU_DESC">
 				  <option value="1">JYes</option>

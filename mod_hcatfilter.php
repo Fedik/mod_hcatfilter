@@ -28,7 +28,7 @@ $doc = JFactory::getDocument();
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
 $text_before = $params->get('text_before');
 $text_after	= $params->get('text_after');
-$root_catid = $params->get('root_catid', 0);
+$root_catid = $params->get('root_catid', 1);
 //get labels
 $labels = trim(htmlspecialchars($params->get('labels'), ENT_QUOTES));
 if($labels){
@@ -47,7 +47,7 @@ if (JRequest::getCmd('option') == 'com_content' && JRequest::getCmd('view') == '
 }
 
 //load categories
-$categories = modHcatFilterHelper::getCategories();
+$categories = modHcatFilterHelper::getCategories($params);
 
 if (empty($categories) || empty($categories[$root_catid])) {
 	echo JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');

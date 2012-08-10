@@ -24,6 +24,8 @@ hCatFilterInit = function () {
 		tree.addEvent('changed',function(changed){
 			if(changed){
 				var id = changed.get('value');
+				var t = id.indexOf('_');
+				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
 				catInput.set('value', id);
 			}
 		});

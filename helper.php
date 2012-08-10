@@ -22,7 +22,7 @@ abstract class modHcatFilterHelper
 	/**
 	 * load the full categories list
 	 */
-	public static function getCategories(){
+	public static function getCategories($params){
 
 		$user = JFactory::getUser();
 		$db = JFactory::getDBO();
@@ -38,12 +38,14 @@ abstract class modHcatFilterHelper
 		$query->where('c.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 		$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 
-		$query->order('c.lft ASC');//lft, title, created_time, modified_time
+		$query->order('c.'. $params->get('ordering', 'lft') .' '. $params->get('ordering_dir', 'ASC'));//lft, title, created_time, modified_time, hits
 
 		//echo $query->dump();
 		$db->setQuery($query);
 
-		$categories = $db->loadObjectList('id');
+		if (!$categories = $db->loadObjectList('id')) {
+			return array();
+		}
 		$i = 1;
 		foreach ($categories as $cat) {
 			//keep ordering
