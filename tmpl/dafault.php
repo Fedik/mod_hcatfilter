@@ -13,7 +13,6 @@
 defined('_JEXEC') or die('Get lost?');
 ?>
 <div class="hcatfilter<?php echo $class_sfx;?>">
-	<div class="hcatfilter-text before"><?php echo $text_before; ?></div>
 	<?php // for save request in browser hisroty better use GET instead of POST ?>
 	<form action="<?php  echo JRoute::_('index.php');?>" method="get" id="<?php echo $block_id; ?>-form" class="hcatfilter-form">
 		<input type="hidden" name="option" value="com_content" />
@@ -28,5 +27,4 @@ defined('_JEXEC') or die('Get lost?');
 			<input type="button" class="button clear" value="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"/>
 		</div>
 	</form>
-	<div class="hcatfilter-text after"><?php echo $text_after; ?></div>
 </div>

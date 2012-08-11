@@ -53,15 +53,6 @@
 				<field name="labels" type="text" default="" size="40"
 					label="MOD_HCATFILTER_LABELS_LABEL" description="MOD_HCATFILTER_LABELS_DESC"/>
 
-				<field name="before-editor-one" type="spacer"  hr="true" class="clr"/>
-
-				<field name="text_before"  type="editor" width="300" filter="safehtml"
-					label ="MOD_HCATFILTER_TEXT_BEFORE_LABEL"/>
-
-				<field name="before-editor-two" type="spacer"  hr="true" class="clr"/>
-
-				<field name="text_after" type="editor" width="300" filter="safehtml"
-					label ="MOD_HCATFILTER_TEXT_AFTER_LABEL"/>
 			</fieldset>
 
 			<fieldset name="advanced">

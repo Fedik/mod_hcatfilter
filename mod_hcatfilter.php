@@ -27,8 +27,6 @@ $options = array();
 
 //get settings
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
-$text_before = $params->get('text_before');
-$text_after	= $params->get('text_after');
 $use_ajax = $params->get('use_ajax', 0);
 //check whether ajax call
 $is_ajax = !empty($module->ajax) && $use_ajax;
