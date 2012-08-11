@@ -56,7 +56,7 @@ if (!$use_ajax) {
 		return;
 	}
 	$cat_tree = new stdClass();
-	$options['request_url'] = JURI::root(true).'/modules/mod_hcatfilter/ajax.php';
+	$options['request_url'] = JURI::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id;
 	$options['loading_image'] = JURI::root(true) . '/media/system/images/mootree_loader.gif';
 }
 

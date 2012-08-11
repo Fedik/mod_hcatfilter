@@ -27,15 +27,32 @@ $app->initialise();
 
 //import module helper
 jimport( 'joomla.application.module.helper' );
-//get module name
-preg_match('|\Smodules\Smod_(.*?)\Sajax.php|si', __FILE__, $matches);
-//get module
-$module = JModuleHelper::getModule( 'mod_' . $matches[1] );
+
+//check module id
+if (!$mid = $app->input->get('mid', 0 , 'int')) {
+	$app->close();
+}
+//load module
+$db = JFactory::getDbo();
+$query = $db->getQuery(true);
+$query->from('#__modules AS m');
+$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params');
+$query->where('m.published = 1');
+$query->where('m.id = ' . $mid);
+$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
+$query->where('e.enabled = 1');
+//echo $query->dump();
+
+// Set the query
+$db->setQuery($query);
+if(!$module = $db->loadObject()) {
+	$app->close();
+}
+
 $module->ajax =  true;
 
 //render module
-//header('Content-type: application/json');
-
+header('Content-type: application/json');
 echo JModuleHelper::renderModule( $module, array('style' => 'none') );
 
 $app->close();
