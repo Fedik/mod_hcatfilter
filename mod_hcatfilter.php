@@ -15,7 +15,6 @@ defined('_JEXEC') or die('Get lost?');
 // Include the syndicate functions only once
 require_once dirname(__FILE__).'/helper.php';
 
-
 //already defined in the joomla application module helper:
 //$module, $attribs, $app, $params, $scope, $path, $chrome, $lang
 
@@ -24,13 +23,16 @@ $user = JFactory::getUser();
 //container for js options
 $options = array();
 
-
 //get settings
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
 $use_ajax = $params->get('use_ajax', 0);
 //check whether ajax call
 $is_ajax = !empty($module->ajax) && $use_ajax;
-$root_catid = !$is_ajax ? $params->get('root_catid', 1) : substr(strrchr($app->input->get('id', '', 'string'), '_'), 1);
+$root_catid = $params->get('root_catid', 1);
+//check whether ROOT selected
+$root_catid = $root_catid == '0' ? '1' : $root_catid;
+//for AJAX use sended id instead of selected in configuration
+$root_catid = !$is_ajax ? $root_catid: substr(strrchr($app->input->get('id', '', 'string'), '_'), 1);
 
 //use caching
 $cache = JFactory::getCache('mod_hcatfilter', 'callback');
@@ -41,7 +43,6 @@ if (empty($categories) || empty($categories[$root_catid])) {
 	echo JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');
 	return;
 }
-
 
 //get categories sorted by their parents
 if (!$use_ajax) {
@@ -59,7 +60,7 @@ if (!$use_ajax) {
 	$options['loading_image'] = JURI::root(true) . '/media/system/images/mootree_loader.gif';
 }
 
-//curent category
+//curent category id
 $active_catid = 0;
 if ($app->input->get('option') == 'com_content' && $app->input->get('view') == 'category') {
 	$active_catid = $app->input->get('id', 0, 'string');
@@ -102,4 +103,3 @@ $doc->addScript(JURI::root(true).'/modules/mod_hcatfilter/js/hcatfilter.js');
 $doc->addScriptDeclaration($js_config);
 //get template
 require JModuleHelper::getLayoutPath('mod_hcatfilter', $params->get('layout', 'default'));
-

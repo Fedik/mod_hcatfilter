@@ -26,7 +26,7 @@ hCatFilterInit = function () {
 				var id = changed.get('value');
 				var t = id.indexOf('_');
 				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
-				if (id) {
+				if (id != 0) {
 					catInput.set('value', id);
 				}
 			}
