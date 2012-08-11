@@ -1,5 +1,5 @@
 /**
- * @version		2012.04.11
+ * @version		2012.08.11
  * @package Hierarchical Category Filter for Joomla 2.5
  * @author  Fedik
  * @email	getthesite@gmail.com
@@ -26,7 +26,9 @@ hCatFilterInit = function () {
 				var id = changed.get('value');
 				var t = id.indexOf('_');
 				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
-				catInput.set('value', id);
+				if (id) {
+					catInput.set('value', id);
+				}
 			}
 		});
 

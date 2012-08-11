@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2012.04.11
+ * @version		2012.08.11
  * @package Hierarchical Category Filter for Joomla 2.5
  * @author  Fedik
  * @email	getthesite@gmail.com
