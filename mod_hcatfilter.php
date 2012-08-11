@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/helper.php';
 //$module, $attribs, $app, $params, $scope, $path, $chrome, $lang
 
 $doc = JFactory::getDocument();
-
+$user = JFactory::getUser();
 //$menu = $app->getMenu();
 //$menu_active = $menu->getActive();
 
@@ -46,18 +46,25 @@ if (JRequest::getCmd('option') == 'com_content' && JRequest::getCmd('view') == '
 	//$active_catid = $menu_active->query['id'];
 }
 
+//use caching
+$cache = JFactory::getCache('mod_hcatfilter', 'callback');
 //load categories
-$categories = modHcatFilterHelper::getCategories($params);
+//$categories = modHcatFilterHelper::getCategories($params, $user->getAuthorisedViewLevels());
+$categories = $cache->call( array( 'modHcatFilterHelper', 'getCategories' ), $params, $user->getAuthorisedViewLevels());
 
 if (empty($categories) || empty($categories[$root_catid])) {
 	echo JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');
 	return;
 }
+$root_id_with_order = $categories[$root_catid]->ordering . '_' . $root_catid;
 
-//get categories as js object
-$cat_first_lvl_js = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, true, true);
-$cat_tree_js = modHcatFilterHelper::getCatsFullTree($categories, true, true);
-$active_categories = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid, true) : '[]';
+//get categories soreted by their parents
+//$cat_first_lvl_js = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, true, true);
+//$cat_tree = modHcatFilterHelper::getCatsFullTree($categories, false, true);
+$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories, false, true);
+$cat_first_lvl = $cat_tree[$root_id_with_order];
+
+$active_categories = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid, true, true) : '[]';
 
 $block_id = 'mod-hcatfilter-' . $module->id;
 $select_text = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
@@ -65,8 +72,8 @@ $select_text = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
 $js_config = "
 try{
  hCatFilterItems.push({
-  treeRoot: {$cat_first_lvl_js},
-  tree: {$cat_tree_js},
+  treeRoot: " . json_encode($cat_first_lvl) .",
+  tree: " . json_encode($cat_tree) .",
   element: '{$block_id}',
   options: {choose:'{$select_text}',". (($labels) ? 'labels:'. $labels . ',' : '' ) ." preselect:{$active_categories}}
  });

@@ -22,9 +22,9 @@ abstract class modHcatFilterHelper
 	/**
 	 * load the full categories list
 	 */
-	public static function getCategories($params){
+	public static function getCategories($params, $user_authorised_view_levels){
 
-		$user = JFactory::getUser();
+
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
@@ -35,7 +35,7 @@ abstract class modHcatFilterHelper
 		$query->where('c.published = 1');
 
 		$query->where('(c.extension=' . $db->Quote('com_content') . ' OR c.extension=' . $db->Quote('system') . ')');
-		$query->where('c.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+		$query->where('c.access IN (' . implode(',', $user_authorised_view_levels) . ')');
 		$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 
 		$query->order('c.'. $params->get('ordering', 'lft') .' '. $params->get('ordering_dir', 'ASC'));//lft, title, created_time, modified_time, hits
@@ -108,11 +108,11 @@ abstract class modHcatFilterHelper
 	/**
 	* return js array with active categories
 	*/
-	public static function getActivePath($items , $active_id, $order_pref = false) {
+	public static function getActivePath($items , $active_id, $json = true, $order_pref = false) {
 		$parent_ids = array();
 
 		if (empty($items[$active_id])) {
-			return json_encode($parent_ids);
+			return $json ? json_encode($parent_ids) : $parent_ids;
 		}
 
 		$curent = $items[$active_id];
@@ -124,7 +124,7 @@ abstract class modHcatFilterHelper
 			$parent_ids[] = $order_pref ? $curent->ordering .'_'. $curent->id : $curent->id;
 		}
 
-		return json_encode($parent_ids);
+		return $json ? json_encode($parent_ids) : $parent_ids;
 	}
 
 }
