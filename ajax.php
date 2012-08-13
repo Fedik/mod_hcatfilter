@@ -38,9 +38,10 @@ $query = $db->getQuery(true);
 $query->from('#__modules AS m');
 $query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params');
 $query->where('m.published = 1');
-$query->where('m.id = ' . $mid);
+$query->where('m.id = ' . (int) $mid);
 $query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
 $query->where('e.enabled = 1');
+$query->where('e.name = ' . $db->Quote('mod_hcatfilter'));
 //echo $query->dump();
 
 // Set the query
