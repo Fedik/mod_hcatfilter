@@ -95,11 +95,14 @@ try{
 ';
 
 //load js and css
-if ($params->get('use_def_css', 1)){
-	$doc->addStyleSheet(JURI::root(true).'/modules/mod_hcatfilter/css/hcatfilter.css');
+if ($params->get('use_def_css', 1))
+{
+	JHtml::_('stylesheet', 'mod_hcatfilter/hcatfilter.css', array(), true);
 }
-$doc->addScript(JURI::root(true).'/modules/mod_hcatfilter/js/mooOptionTree.js');
-$doc->addScript(JURI::root(true).'/modules/mod_hcatfilter/js/hcatfilter.js');
+JHtml::_('jquery.framework');
+JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
+JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
+
 $doc->addScriptDeclaration($js_config);
 //get template
 require JModuleHelper::getLayoutPath('mod_hcatfilter', $params->get('layout', 'default'));

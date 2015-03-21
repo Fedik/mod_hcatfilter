@@ -17,8 +17,12 @@
 		<folder>language</folder>
 		<filename>helper.php</filename>
 		<filename>ajax.php</filename>
-		<filename>index.html</filename>
 	</files>
+
+	<media destination="mod_hcatfilter" folder="media">
+		<folder>js</folder>
+		<folder>css</folder>
+	</media>
 
 	<config>
 		<fields name="params">

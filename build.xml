@@ -12,11 +12,10 @@
 			<exclude name="build.xml" />
 		</fileset>
 
-		<!-- Fileset for Media files
-		<fileset dir="${project.basedir}/module_files/media" id="media">
+		<!-- Fileset for Media files -->
+		<fileset dir="${project.basedir}/media" id="media">
 			<include name="**/**" />
 		</fileset>
--->
 
 
 		<!-- copy_all Target -->
@@ -33,10 +32,8 @@
 			<copy todir="${destination}/modules/mod_hcatfilter/">
 				<fileset refid="module_files" />
 			</copy>
-			<!--
 			<copy todir="${destination}/media/mod_hcatfilter/">
 				<fileset refid="media" />
 	        </copy>
-	         -->
 	</target>
 </project>
