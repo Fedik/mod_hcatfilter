@@ -7,7 +7,8 @@
 		<!-- Fileset for plugin -->
 		<fileset dir="${project.basedir}" id="module_files">
 			<include name="**/**" />
-			<exclude name=".git/**" />
+			<exclude name=".*/**" />
+			<exclude name=".*" />
 			<exclude name="build.xml" />
 		</fileset>
 
