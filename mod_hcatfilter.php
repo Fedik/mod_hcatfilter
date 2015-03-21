@@ -93,6 +93,7 @@ try{
  });
 }catch(e){console.error(e)};
 ';
+$doc->addScriptDeclaration($js_config);
 
 //load js and css
 if ($params->get('use_def_css', 1))
@@ -104,6 +105,6 @@ JHtml::_('behavior.framework');
 JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
 JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
 
-$doc->addScriptDeclaration($js_config);
+
 //get template
 require JModuleHelper::getLayoutPath('mod_hcatfilter', $params->get('layout', 'default'));

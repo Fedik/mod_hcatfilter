@@ -10,6 +10,7 @@
 			<exclude name=".*/**" />
 			<exclude name=".*" />
 			<exclude name="build.xml" />
+			<exclude name="README.md" />
 		</fileset>
 
 		<!-- Fileset for Media files -->
