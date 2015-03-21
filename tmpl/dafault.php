@@ -23,8 +23,8 @@ defined('_JEXEC') or die('Get lost?');
 			<div id="<?php echo $block_id; ?>"></div>
 		</div>
 		<div class="hcatfilter-button">
-			<input type="submit" class="button" value="<?php echo JText::_('JGLOBAL_FILTER_BUTTON'); ?>"/>
-			<input type="button" class="button clear" value="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"/>
+			<input type="submit" class="button btn" value="<?php echo JText::_('JGLOBAL_FILTER_BUTTON'); ?>"/>
+			<input type="button" class="button clear btn" value="<?php echo JText::_('JLIB_FORM_BUTTON_CLEAR'); ?>"/>
 		</div>
 	</form>
 </div>
