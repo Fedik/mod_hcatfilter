@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mod_hcatfilter" default="" basedir=".">
+
+	<!-- Copy destination; use -Ddestination="destination/path" instead -->
+	<property name="destination" value="." />
+
+		<!-- Fileset for plugin -->
+		<fileset dir="${project.basedir}" id="module_files">
+			<include name="**/**" />
+			<exclude name=".git/**" />
+			<exclude name="build.xml" />
+		</fileset>
+
+		<!-- Fileset for Media files
+		<fileset dir="${project.basedir}/module_files/media" id="media">
+			<include name="**/**" />
+		</fileset>
+-->
+
+
+		<!-- copy_all Target -->
+		<target name="copy_all" description="copy all files to target">
+			<echo message="Copying files" />
+			<copy todir="${destination}">
+				<fileset refid="module_files" />
+			</copy>
+		</target>
+
+		<!-- install Target -->
+		<target name="install">
+			<echo message="Installing ..." />
+			<copy todir="${destination}/modules/mod_hcatfilter/">
+				<fileset refid="module_files" />
+			</copy>
+			<!--
+			<copy todir="${destination}/media/mod_hcatfilter/">
+				<fileset refid="media" />
+	        </copy>
+	         -->
+	</target>
+</project>
