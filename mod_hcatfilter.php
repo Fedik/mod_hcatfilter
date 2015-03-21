@@ -5,7 +5,7 @@
  * @author  Fedik
  * @email	getthesite@gmail.com
  * @link    http://www.getsite.org.ua
- * @license	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ * @license	GNU/GPL http://www.gnu.org/licenses/gpl.html
  *
  * mod_hcatfilter
  */
@@ -100,6 +100,7 @@ if ($params->get('use_def_css', 1))
 	JHtml::_('stylesheet', 'mod_hcatfilter/hcatfilter.css', array(), true);
 }
 JHtml::_('jquery.framework');
+JHtml::_('behavior.framework');
 JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
 JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
 
