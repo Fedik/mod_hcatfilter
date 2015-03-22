@@ -19,8 +19,8 @@ var hCatFilterItems = new Array();
     		var o = hCatFilterItems[i];
 
     		//set some common options
-    		o.options.empty_value = '0';
-    		o.options.instant_init = false;
+    		o.options.emptyValue = '0';
+    		o.options.instantInit = false;
             console.log(o);
 
             // Initialize
@@ -29,17 +29,17 @@ var hCatFilterItems = new Array();
 			var tree = $el.data('relatedSelect');
 
     		//for set selected category id
-    		var catInput = $(o.element + '-form').children('input[name=id]');
-    		$el.on('update', function(changed){
+    		var $catInput = $(o.element + '-form').children('input[name=id]');
+    		$el.on('update', function(event, changed){
     			if(changed){
-    				var id = changed.val();
-    				var t = id.indexOf('_');
-    				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
+    				var id = $(changed).val();
     				if (id != 0) {
-    					catInput.val(id);
+    					$catInput.val(id);
     				}
     			}
     		});
+
+    		tree.init();
 
     		// Bind clear button
     		$(o.element + '-form').find('.reset').on('click', function() {

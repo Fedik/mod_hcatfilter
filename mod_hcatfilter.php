@@ -55,8 +55,8 @@ if (!$use_ajax) {
 		return;
 	}
 	$cat_tree = new stdClass();
-	$options['request_url'] = JURI::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id;
-	$options['loading_image'] = JURI::root(true) . '/media/system/images/mootree_loader.gif';
+	$options['requestUrl'] = JURI::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id;
+	$options['loadingImage'] = JURI::root(true) . '/media/system/images/mootree_loader.gif';
 }
 
 //curent category id
@@ -84,7 +84,6 @@ $options['root'] = $root_catid;
 $options['tree'] = $cat_tree;
 $options['choose'] = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
 
-var_dump($cat_first_lvl, $cat_tree);
 $js_config = '
 try{
  hCatFilterItems.push({
