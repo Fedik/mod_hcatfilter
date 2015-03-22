@@ -10,40 +10,45 @@
  */
 var hCatFilterItems = new Array();
 
-hCatFilterInit = function () {
-	//execute each stored settings
-	Array.each(hCatFilterItems, function(o){
-		//set some common options
-		o.options.empty_value = '0';
-		o.options.instant_init = false;
-		//get optiontree
-		var tree = new mooOptionTree(o.element, o.options, o.treeRoot, o.tree);
+;(function(window, document, $){
+	"use strict";
 
-		//for set selected category id
-		var catInput = document.id(o.element + '-form').getElement('input[name=id]');
-		tree.addEvent('changed',function(changed){
-			if(changed){
-				var id = changed.get('value');
-				var t = id.indexOf('_');
-				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
-				if (id != 0) {
-					catInput.set('value', id);
-				}
-			}
-		});
+    window.hCatFilterInit = function () {
+    	//execute each stored settings
+    	for(var i = 0, l = hCatFilterItems.length; i < l; i++) {
+    		var o = hCatFilterItems[i];
 
-		//init optiontree
-		tree.init();
+    		//set some common options
+    		o.options.empty_value = '0';
+    		o.options.instant_init = false;
+            console.log(o);
 
-		//clear button
-		var clearBt = document.id(o.element + '-form').getElement('.clear');
-		if(clearBt){
-			clearBt.addEvent('click',function(){tree.resetTree(true);});
-		}
-	});
-};
+            // Initialize
+			var $el = $(o.element);
+			$el.relatedSelect(o.options);
+			var tree = $el.data('relatedSelect');
 
-//init
-window.addEvent('domready',function(){
-	hCatFilterInit();
-});
+    		//for set selected category id
+    		var catInput = $(o.element + '-form').children('input[name=id]');
+    		$el.on('update', function(changed){
+    			if(changed){
+    				var id = changed.val();
+    				var t = id.indexOf('_');
+    				id = (t == -1) ? id : id.substr(id.indexOf('_') + 1);
+    				if (id != 0) {
+    					catInput.val(id);
+    				}
+    			}
+    		});
+
+    		// Bind clear button
+    		$(o.element + '-form').find('.reset').on('click', function() {
+    			tree.resetTree(true);
+    		});
+    	}
+    };
+
+    //init
+    $(document).ready(window.hCatFilterInit);
+
+})(window, document, jQuery);

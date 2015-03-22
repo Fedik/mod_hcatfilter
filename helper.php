@@ -22,9 +22,8 @@ abstract class modHcatFilterHelper
 	/**
 	 * load the full categories list
 	 */
-	public static function getCategories($params, $user_authorised_view_levels){
-
-
+	public static function getCategories($params, $user_authorised_view_levels)
+	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
@@ -69,46 +68,46 @@ abstract class modHcatFilterHelper
 	}
 
 	/**
-	* return full tree list
-	* { 1: { 3: "Option 3",  4: "Option 4" }, 3: {5: "Some 5", 6: "Some 6"} }
-	*/
-	public static function getCatsFullTree($items, $json = true, $order_pref = false){
-
+	 * @return string full tree list
+	 * { 1: { 3: "Option 3",  4: "Option 4" }, 3: {5: "Some 5", 6: "Some 6"} }
+	 */
+	public static function getCatsFullTree($items, $json = true, $order_pref = false)
+	{
 		$js_arr = array();
 
 		foreach ($items as $cat){
 			if(!empty($cat->children)){
-				// trick for keep right ordering in JavaScript
-				//http://stackoverflow.com/questions/280713/elements-order-in-a-for-in-loop
-				$k = $order_pref && $cat->ordering ? $cat->ordering . '_' . $cat->id : $cat->id;
-
-				$js_arr[$k] =  self::getCatsForOneLevel($cat->children, false, true);
+				$js_arr[$cat->id] =  self::getCatsForOneLevel($cat->children, false, true);
 			}
 		}
+
 		return $json ? json_encode($js_arr) : $js_arr;
 	}
 
 	/**
-	* return categories for one level
-	* { 1: "Option 1",  2: "Option 2" }
-	*/
-	public static function getCatsForOneLevel($items, $json = true, $order_pref = false){
-
+	 * @return string categories for one level
+	 * { 1: "Option 1",  2: "Option 2" }
+	 */
+	public static function getCatsForOneLevel($items, $json = true, $order_pref = false)
+	{
 		$js_arr = array();
 
 		foreach ($items as $cat){
-			// trick for keep right ordering in JavaScript
-			$k = $order_pref && $cat->ordering ? $cat->ordering . '_' . $cat->id : $cat->id;
-			$js_arr[$k] = htmlspecialchars($cat->title, ENT_QUOTES);
+			$js_arr[] = array(
+				'title' => htmlspecialchars($cat->title, ENT_QUOTES),
+				'value' => $cat->id,
+				'parent'=> $cat->parent_id,
+			);
 
 		}
 		return $json ? json_encode($js_arr) : $js_arr;
 	}
 
 	/**
-	* return js array with active categories
-	*/
-	public static function getActivePath($items , $active_id, $json = true, $order_pref = false) {
+	 * @return js array with active categories
+	 */
+	public static function getActivePath($items , $active_id, $json = true, $order_pref = false)
+	{
 		$parent_ids = array();
 
 		if (empty($items[$active_id])) {
@@ -126,5 +125,4 @@ abstract class modHcatFilterHelper
 
 		return $json ? json_encode($parent_ids) : $parent_ids;
 	}
-
 }

@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Get lost?');
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once dirname(__FILE__) . '/helper.php';
 
 //already defined in the joomla application module helper:
 //$module, $attribs, $app, $params, $scope, $path, $chrome, $lang
@@ -46,9 +46,8 @@ if (empty($categories) || empty($categories[$root_catid])) {
 
 //get categories sorted by their parents
 if (!$use_ajax) {
-	$root_id_with_order = $categories[$root_catid]->ordering . '_' . $root_catid;
 	$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories, false, true);
-	$cat_first_lvl = $cat_tree[$root_id_with_order];
+	$cat_first_lvl = $cat_tree[$root_catid];
 } else {
 	$cat_first_lvl = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, false, true);
 	if ($is_ajax) {
@@ -81,14 +80,15 @@ if($labels){
 	$options['labels'] = explode(',', $labels);
 }
 
+$options['root'] = $root_catid;
+$options['tree'] = $cat_tree;
 $options['choose'] = JText::_('MOD_HCATFILTER_MAKE_CHOOSE');
 
+var_dump($cat_first_lvl, $cat_tree);
 $js_config = '
 try{
  hCatFilterItems.push({
-  treeRoot: ' . json_encode($cat_first_lvl) .',
-  tree: ' . json_encode($cat_tree) .',
-  element: \''. $block_id .'\',
+  element: \'#'. $block_id .'\',
   options: '. json_encode($options) .'
  });
 }catch(e){console.error(e)};
@@ -101,8 +101,10 @@ if ($params->get('use_def_css', 1))
 	JHtml::_('stylesheet', 'mod_hcatfilter/hcatfilter.css', array(), true);
 }
 JHtml::_('jquery.framework');
-JHtml::_('behavior.framework');
-JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
+//JHtml::_('behavior.framework');
+//JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
+
+JHtml::_('script', 'mod_hcatfilter/jquery.relatedSelect.js', false, true);
 JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
 
 
