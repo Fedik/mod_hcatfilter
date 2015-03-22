@@ -40,13 +40,15 @@
 				  <option value="hits">JGLOBAL_HITS</option>
 				</field>
 
-				<field name="ordering_dir" type="list" default="ASC"
+				<field name="ordering_dir" type="radio" default="ASC"
+					class="btn-group btn-group-yesno"
 					label="MOD_HCATFILTER_ORDERING_DIRECTION_LABEL" description="MOD_HCATFILTER_ORDERING_DIRECTION_DESC">
 				  <option value="ASC">MOD_HCATFILTER_ORDERING_DIRECTION_ASCENDING</option>
 				  <option value="DESC">MOD_HCATFILTER_ORDERING_DIRECTION_DESCENDING</option>
 				</field>
 
 				<field name="assign_menu" type="radio" default="0"
+					class="btn-group btn-group-yesno"
 					label="MOD_HCATFILTER_ASSIGN_MENU_LABEL" description="MOD_HCATFILTER_ASSIGN_MENU_DESC">
 				  <option value="1">JYes</option>
 				  <option value="0">JNo</option>
@@ -61,21 +63,24 @@
 
 			<fieldset name="advanced">
 				<field name="use_ajax" type="radio" default="0"
+					class="btn-group btn-group-yesno"
 					label="MOD_HCATFILTER_USE_AJAX_LABEL" description="MOD_HCATFILTER_USE_AJAX_DESC">
 				  <option value="1">JYes</option>
 				  <option value="0">JNo</option>
 				</field>
+
+				<field name="use_def_css" type="radio" default="1"
+					class="btn-group btn-group-yesno"
+					label="MOD_HCATFILTER_USE_CSS_LABEL" description="MOD_HCATFILTER_USE_CSS_DESC">
+				  <option value="1">JYes</option>
+				  <option value="0">JNo</option>
+				</field>
+
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-				<field name="use_def_css" type="radio" default="1"
-					label="MOD_HCATFILTER_USE_CSS_LABEL" description="MOD_HCATFILTER_USE_CSS_DESC">
-				  <option value="1">JYes</option>
-				  <option value="0">JNo</option>
-				</field>
 
 				<field
 					name="moduleclass_sfx"
