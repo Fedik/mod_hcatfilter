@@ -51,8 +51,8 @@
 		if(changed){
 			//clear all after changed
 			var $el = $(changed);
-			$el.next('label').remove();
-			$el.next('select').remove();
+			$el.nextAll('label').remove();
+			$el.nextAll('select').remove();
 
 			//add children select
 			var id = $el.val();
@@ -139,6 +139,28 @@
 		    }
 		};
 
+	};
+
+	/**
+	 * function for reset selected items
+	 * @param bool
+	 * 				true - full reset with clear preselected,
+	 * 				false - back to init state
+	 */
+	$.relatedSelect.prototype.resetTree = function(full){
+		if(full){
+			this.options.preselect = [];
+		}
+		this.updateTree();
+	};
+
+	/**
+	 * do ajax request for get children for givent id
+	 *
+	 * @param DOM element, changed select
+	 */
+	$.relatedSelect.prototype.requestChildren = function (changed) {
+		console.log('TODO')
 	};
 
 	// defaults
