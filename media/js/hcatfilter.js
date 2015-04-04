@@ -1,14 +1,14 @@
 /**
- * @version		2012.08.11
- * @package Hierarchical Category Filter for Joomla 2.5
- * @author  Fedik
+ * @version	2012.08.11
+ * @package Hierarchical Category Filter
+ * @author  Fedir Zinchuk
  * @email	getthesite@gmail.com
  * @link    http://www.getsite.org.ua
  * @license	GNU/GPL http://www.gnu.org/licenses/gpl.html
  *
  * mod_hcatfilter
  */
-var hCatFilterItems = new Array();
+var hCatFilterItems = [];
 
 ;(function(window, document, $){
 	"use strict";

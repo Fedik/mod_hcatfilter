@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		2012.08.11
- * @package Hierarchical Category Filter for Joomla 2.5
- * @author  Fedik
- * @email	getthesite@gmail.com
+ * @version	2012.08.11
+ * @package Hierarchical Category Filter
+ * @author  Fedir Zinchuk
  * @link    http://www.getsite.org.ua
  * @license	GNU/GPL http://www.gnu.org/licenses/gpl.html
  *
@@ -46,10 +45,10 @@ if (empty($categories) || empty($categories[$root_catid])) {
 
 //get categories sorted by their parents
 if (!$use_ajax) {
-	$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories, false, true);
+	$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories);
 	$cat_first_lvl = $cat_tree[$root_catid];
 } else {
-	$cat_first_lvl = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children, false, true);
+	$cat_first_lvl = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children);
 	if ($is_ajax) {
 		echo json_encode($cat_first_lvl);
 		return;
@@ -68,10 +67,10 @@ elseif ($app->input->get('option') == 'com_content' && $app->input->get('view') 
 	$active_catid = $app->input->get('catid', 0, 'string');
 }
 
-$options['preselect'] = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid, false, true) : array();
+$options['preselect'] = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid) : array();
 
 //for assign result for menu item
-$Itemid = $params->get('assign_menu') ? $params->get('menu_item') : JRequest::getInt('Itemid');
+$Itemid = $params->get('assign_menu') ? $params->get('menu_item') : $app->input->getInt('Itemid');
 
 $block_id = 'mod-hcatfilter-' . $module->id;
 //get labels

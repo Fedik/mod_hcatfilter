@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		2012.08.11
- * @package Hierarchical Category Filter for Joomla 2.5
- * @author  Fedik
- * @email	getthesite@gmail.com
+ * @version	2012.08.11
+ * @package Hierarchical Category Filter
+ * @author  Fedir Zinchuk
  * @link    http://www.getsite.org.ua
  * @license	GNU/GPL http://www.gnu.org/licenses/gpl.html
  *

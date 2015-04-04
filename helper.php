@@ -1,9 +1,8 @@
 <?php
 /**
- * @version		2012.08.11
- * @package Hierarchical Category Filter for Joomla 2.5
- * @author  Fedik
- * @email	getthesite@gmail.com
+ * @version	2012.08.11
+ * @package Hierarchical Category Filter
+ * @author  Fedir Zinchuk
  * @link    http://www.getsite.org.ua
  * @license	GNU/GPL http://www.gnu.org/licenses/gpl.html
  *
@@ -68,27 +67,25 @@ abstract class modHcatFilterHelper
 	}
 
 	/**
-	 * @return string full tree list
-	 * { 1: { 3: "Option 3",  4: "Option 4" }, 3: {5: "Some 5", 6: "Some 6"} }
+	 * @return array full tree list
 	 */
-	public static function getCatsFullTree($items, $json = true, $order_pref = false)
+	public static function getCatsFullTree($items)
 	{
 		$js_arr = array();
 
 		foreach ($items as $cat){
 			if(!empty($cat->children)){
-				$js_arr[$cat->id] =  self::getCatsForOneLevel($cat->children, false, true);
+				$js_arr[$cat->id] =  self::getCatsForOneLevel($cat->children);
 			}
 		}
 
-		return $json ? json_encode($js_arr) : $js_arr;
+		return $js_arr;
 	}
 
 	/**
-	 * @return string categories for one level
-	 * { 1: "Option 1",  2: "Option 2" }
+	 * @return array categories for one level
 	 */
-	public static function getCatsForOneLevel($items, $json = true, $order_pref = false)
+	public static function getCatsForOneLevel($items)
 	{
 		$js_arr = array();
 
@@ -100,29 +97,29 @@ abstract class modHcatFilterHelper
 			);
 
 		}
-		return $json ? json_encode($js_arr) : $js_arr;
+		return $js_arr;
 	}
 
 	/**
-	 * @return js array with active categories
+	 * @return array with active categories
 	 */
-	public static function getActivePath($items , $active_id, $json = true, $order_pref = false)
+	public static function getActivePath($items , $active_id)
 	{
 		$parent_ids = array();
 
 		if (empty($items[$active_id])) {
-			return $json ? json_encode($parent_ids) : $parent_ids;
+			return $parent_ids;
 		}
 
 		$curent = $items[$active_id];
 
-		$parent_ids[] = $order_pref ? $curent->ordering .'_'. $curent->id : $curent->id;
+		$parent_ids[] = $curent->id;
 
 		while (isset($items[$curent->parent_id])) {
 			$curent = $items[$curent->parent_id];
-			$parent_ids[] = $order_pref ? $curent->ordering .'_'. $curent->id : $curent->id;
+			$parent_ids[] = $curent->id;
 		}
 
-		return $json ? json_encode($parent_ids) : $parent_ids;
+		return $parent_ids;
 	}
 }

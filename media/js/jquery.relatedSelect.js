@@ -133,8 +133,8 @@
 		    }));
 
 		    //preselect
-		    if(this.options.preselect && this.options.preselect.indexOf(id) != -1){
-		    	$select.val(id);
+		    if(this.options.preselect.length && this.options.preselect.indexOf(el.value) !== -1){
+		    	$select.val(el.value);
 		    	$select.trigger('change');
 		    }
 		};
