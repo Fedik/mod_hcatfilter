@@ -16,9 +16,9 @@
         this.tree = this.options.tree;
 
         // make image element for loading animation
-        if (this.options.loading_image) {
-			this.loading_image = $('<img/>', {
-				src: this.options.loading_image,
+        if (this.options.loadingImage) {
+        	this.$loadingImage = $('<img/>', {
+				src: this.options.loadingImage,
 				alt: 'Loading...',
 				'class': 'loading-animation'
 			});
@@ -160,7 +160,36 @@
 	 * @param DOM element, changed select
 	 */
 	$.relatedSelect.prototype.requestChildren = function (changed) {
-		console.log('TODO')
+		var id = $(changed).val();
+
+		if(this.$loadingImage){
+			$(changed).after(this.$loadingImage);
+		}
+
+    	var request = $.ajax({
+    		url: this.options.requestUrl,
+    		type: 'POST',
+    		dataType: 'json',
+    		data: {
+    			'jquery.relatedSelect': 1,
+    			id: id
+    		}
+    	});
+
+    	request.done(function(response){
+    		if(this.$loadingImage) this.$loadingImage.remove();
+
+    		if (response.length) {
+				// save the response
+				this.tree[id] = response;
+			}
+    		this.addSelect(id);
+    	}.bind(this));
+
+    	request.fail(function(jqXHR, textStatus){
+        	if(this.$loadingImage) this.$loadingImage.remove();
+        	console.log( "Request failed: " + textStatus );
+        }.bind(this));
 	};
 
 	// defaults

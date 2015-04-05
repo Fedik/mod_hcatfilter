@@ -53,7 +53,7 @@ if (!$use_ajax) {
 		echo json_encode($cat_tree[$root_catid]);
 		return;
 	}
-	$options['requestUrl'] = JUri::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id . '&Itemid' . $app->input->getInt('Itemid');
+	$options['requestUrl'] = JUri::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id . '&Itemid=' . $app->input->getInt('Itemid');
 	$options['loadingImage'] = JHtml::_('image', 'system/mootree_loader.gif', '', null, true, true);
 }
 
