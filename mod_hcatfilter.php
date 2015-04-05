@@ -26,11 +26,14 @@ $options = array();
 //get settings
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
 $use_ajax = $params->get('use_ajax', 0);
+
 //check whether ajax call
 $is_ajax = !empty($module->ajax) && $use_ajax;
 $root_catid = $params->get('root_catid', 1);
+
 //check whether ROOT selected
 $root_catid = $root_catid == '0' ? '1' : $root_catid;
+
 //for AJAX use sended id instead of selected in configuration
 $root_catid = !$is_ajax ? $root_catid : $app->input->get('id', '', 'string');
 
@@ -48,12 +51,14 @@ if (empty($categories) || empty($categories[$root_catid])) {
 if (!$use_ajax) {
 	$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories);
 } else {
+	// @TODO: load also preselected
 	$cat_tree = array($root_catid => modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children));
 	if ($is_ajax) {
 		echo json_encode($cat_tree[$root_catid]);
 		return;
 	}
-	$options['requestUrl'] = JUri::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id . '&Itemid=' . $app->input->getInt('Itemid');
+
+	$options['requestUrl'] = JUri::base(true) . '/index.php?option=com_ajax&format=json&module=hcatfilter&title=' . urlencode($module->title) . '&Itemid=' . $app->input->getInt('Itemid');
 	$options['loadingImage'] = JHtml::_('image', 'system/mootree_loader.gif', '', null, true, true);
 }
 

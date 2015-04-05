@@ -122,4 +122,25 @@ abstract class modHcatFilterHelper
 
 		return $parent_ids;
 	}
+
+	/**
+	 * Render module on ajax request
+	 *
+	 * @return void
+	 */
+	public static function getAjax()
+	{
+		$title  = JFactory::getApplication()->input->getString('title');
+		$module = JModuleHelper::getModule('mod_hcatfilter', $title);
+
+		if(!$module)
+		{
+			// TODO: show some error
+			return;
+		}
+
+		$module->ajax = true;
+		echo JModuleHelper::renderModule($module, array('style' => 'none'));
+		JFactory::getApplication()->close();
+	}
 }

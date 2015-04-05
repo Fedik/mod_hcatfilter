@@ -188,7 +188,7 @@
 
     	request.fail(function(jqXHR, textStatus){
         	if(this.$loadingImage) this.$loadingImage.remove();
-        	console.log( "Request failed: " + textStatus );
+        	console.log('Request failed: ' + textStatus);
         }.bind(this));
 	};
 

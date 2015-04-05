@@ -21,7 +21,6 @@ var hCatFilterItems = [];
     		//set some common options
     		o.options.emptyValue = '0';
     		o.options.instantInit = false;
-            console.log(o);
 
             // Initialize
 			var $el = $(o.element);
@@ -42,7 +41,7 @@ var hCatFilterItems = [];
     		tree.init();
 
     		// Bind clear button
-    		$(o.element + '-form').find('.reset').on('click', function() {
+    		$(o.element + '-form').on('click', '.reset', function() {
     			tree.resetTree(true);
     		});
     	}

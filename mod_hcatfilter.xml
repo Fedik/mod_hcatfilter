@@ -16,7 +16,6 @@
 		<folder>css</folder>
 		<folder>language</folder>
 		<filename>helper.php</filename>
-		<filename>ajax.php</filename>
 	</files>
 
 	<media destination="mod_hcatfilter" folder="media">
