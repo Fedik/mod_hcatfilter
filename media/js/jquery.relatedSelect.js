@@ -104,7 +104,7 @@
 		//add label if given
 		if(this.options.labels.length){
 			//find curent level via count previous elements
-			var lvl = $select.next('select').length;
+			var lvl = $select.prevAll('select').length;
 			//label text
 			var lbl_text = this.options.labels[lvl];
 			if (lbl_text){
