@@ -54,7 +54,7 @@ if (!$use_ajax) {
 		return;
 	}
 	$options['requestUrl'] = JUri::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id . '&Itemid' . $app->input->getInt('Itemid');
-	$options['loadingImage'] = JUri::root(true) . '/media/system/images/mootree_loader.gif';
+	$options['loadingImage'] = JHtml::_('image', 'system/mootree_loader.gif', '', null, true, true);
 }
 
 //curent category id
