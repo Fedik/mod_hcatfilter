@@ -75,7 +75,7 @@ elseif ($app->input->get('option') == 'com_content' && $app->input->get('view') 
 	$active_catid = $app->input->get('catid', 0, 'string');
 }
 
-$options['preselect'] = ($active_catid) ? modHcatFilterHelper::getActivePath($categories, $active_catid) : array();
+$options['preselect'] = $active_catid ? modHcatFilterHelper::getActivePath($categories, $active_catid) : array();
 if($use_ajax)
 {
 	// Preload selected
@@ -115,13 +115,10 @@ if ($params->get('use_def_css', 1))
 {
 	JHtml::_('stylesheet', 'mod_hcatfilter/hcatfilter.css', array(), true);
 }
-JHtml::_('jquery.framework');
-//JHtml::_('behavior.framework');
-//JHtml::_('script', 'mod_hcatfilter/mooOptionTree.js', false, true);
 
+JHtml::_('jquery.framework');
 JHtml::_('script', 'mod_hcatfilter/jquery.relatedSelect.js', false, true);
 JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
-
 
 //get template
 require JModuleHelper::getLayoutPath('mod_hcatfilter', $params->get('layout', 'default'));
