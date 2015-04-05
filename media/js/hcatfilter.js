@@ -1,5 +1,5 @@
 /**
- * @version	2012.08.11
+ * @version	2015.04.05
  * @package Hierarchical Category Filter
  * @author  Fedir Zinchuk
  * @email	getthesite@gmail.com

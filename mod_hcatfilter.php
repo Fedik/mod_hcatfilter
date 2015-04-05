@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	2012.08.11
+ * @version	2015.04.05
  * @package Hierarchical Category Filter
  * @author  Fedir Zinchuk
  * @link    http://www.getsite.org.ua
@@ -117,8 +117,8 @@ if ($params->get('use_def_css', 1))
 }
 
 JHtml::_('jquery.framework');
-JHtml::_('script', 'mod_hcatfilter/jquery.relatedSelect.js', false, true);
-JHtml::_('script', 'mod_hcatfilter/hcatfilter.js', false, true);
+JHtml::_('script', 'mod_hcatfilter/jquery.relatedSelect.min.js', false, true);
+JHtml::_('script', 'mod_hcatfilter/hcatfilter.min.js', false, true);
 
 //get template
 require JModuleHelper::getLayoutPath('mod_hcatfilter', $params->get('layout', 'default'));

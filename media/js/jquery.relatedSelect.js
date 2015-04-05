@@ -3,6 +3,7 @@
  *
  * @author  Fedir Zinchuk <getthesite at gmail dot com>
  * @license http://www.gnu.org/licenses/gpl.html
+ * @version 1.0
  */
 
 ;(function(window, document, $){
@@ -27,8 +28,6 @@
         if(this.options.instantInit){
 			this.updateTree();
 		}
-
-        console.log(this);
 	};
 
 	/**
