@@ -17,7 +17,8 @@ require_once dirname(__FILE__) . '/helper.php';
 //already defined in the joomla application module helper:
 //$module, $attribs, $app, $params, $scope, $path, $chrome, $lang
 
-$doc = JFactory::getDocument();
+$app  = JFactory::getApplication();
+$doc  = JFactory::getDocument();
 $user = JFactory::getUser();
 //container for js options
 $options = array();
@@ -31,7 +32,7 @@ $root_catid = $params->get('root_catid', 1);
 //check whether ROOT selected
 $root_catid = $root_catid == '0' ? '1' : $root_catid;
 //for AJAX use sended id instead of selected in configuration
-$root_catid = !$is_ajax ? $root_catid: substr(strrchr($app->input->get('id', '', 'string'), '_'), 1);
+$root_catid = !$is_ajax ? $root_catid : $app->input->get('id', '', 'string');
 
 //use caching
 $cache = JFactory::getCache('mod_hcatfilter', 'callback');
@@ -46,16 +47,14 @@ if (empty($categories) || empty($categories[$root_catid])) {
 //get categories sorted by their parents
 if (!$use_ajax) {
 	$cat_tree = $cache->call( array( 'modHcatFilterHelper', 'getCatsFullTree' ), $categories);
-	$cat_first_lvl = $cat_tree[$root_catid];
 } else {
-	$cat_first_lvl = modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children);
+	$cat_tree = array($root_catid => modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children));
 	if ($is_ajax) {
-		echo json_encode($cat_first_lvl);
+		echo json_encode($cat_tree[$root_catid]);
 		return;
 	}
-	$cat_tree = new stdClass();
-	$options['requestUrl'] = JURI::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id;
-	$options['loadingImage'] = JURI::root(true) . '/media/system/images/mootree_loader.gif';
+	$options['requestUrl'] = JUri::root(true).'/modules/mod_hcatfilter/ajax.php?mid=' . $module->id . '&Itemid' . $app->input->getInt('Itemid');
+	$options['loadingImage'] = JUri::root(true) . '/media/system/images/mootree_loader.gif';
 }
 
 //curent category id
