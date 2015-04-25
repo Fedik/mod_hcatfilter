@@ -12,8 +12,6 @@
 	<files>
 		<filename module="mod_hcatfilter">mod_hcatfilter.php</filename>
 		<folder>tmpl</folder>
-		<folder>js</folder>
-		<folder>css</folder>
 		<folder>language</folder>
 		<filename>helper.php</filename>
 	</files>
