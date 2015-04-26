@@ -1,6 +1,6 @@
 <?php
 /**
- * @version	2015.04.05
+ * @version	2015.04.26
  * @package Hierarchical Category Filter
  * @author  Fedir Zinchuk
  * @link    http://www.getsite.org.ua
@@ -52,7 +52,6 @@ if (!$use_ajax)
 }
 else
 {
-	// @TODO: load also preselected
 	$cat_tree = array($root_catid => modHcatFilterHelper::getCatsForOneLevel($categories[$root_catid]->children));
 	if ($is_ajax)
 	{
@@ -110,12 +109,7 @@ try{
 ';
 $doc->addScriptDeclaration($js_config);
 
-//load js and css
-if ($params->get('use_def_css', 1))
-{
-	JHtml::_('stylesheet', 'mod_hcatfilter/hcatfilter.css', array(), true);
-}
-
+//load js
 JHtml::_('jquery.framework');
 JHtml::_('script', 'mod_hcatfilter/jquery.relatedSelect.min.js', false, true);
 JHtml::_('script', 'mod_hcatfilter/hcatfilter.min.js', false, true);
